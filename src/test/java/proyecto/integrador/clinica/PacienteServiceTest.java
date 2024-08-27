@@ -6,9 +6,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import proyecto.integrador.clinica.dao.impl.DaoH2Paciente;
 import proyecto.integrador.clinica.db.H2Connection;
 import proyecto.integrador.clinica.model.Domicilio;
 import proyecto.integrador.clinica.model.Paciente;
+import proyecto.integrador.clinica.service.PacienteService;
 
 
 import java.time.LocalDate;
