@@ -97,15 +97,8 @@ public class DaoH2Odontologo implements IDao<Odontologo>
         return odontologoBD;
     }
 
-
     @Override
-    public List<Odontologo> listaTodos() {
-        return List.of();
-    }
-
-
-    @Override
-    public List<Odontologo> listarTodos() {
+    public List<Odontologo> listaTodos()  {
         Connection connection = null;
         List<Odontologo> odontologos = new ArrayList<>();
         Odontologo odontologoBD = null;

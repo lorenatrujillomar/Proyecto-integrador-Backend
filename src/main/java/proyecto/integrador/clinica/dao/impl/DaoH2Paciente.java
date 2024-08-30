@@ -154,11 +154,6 @@ public class DaoH2Paciente implements IDao<Paciente> {
     }
 
     @Override
-    public List listarTodos() {
-        return List.of();
-    }
-
-    @Override
     public void modificar(Paciente paciente) {
         Connection connection = null;
         try{

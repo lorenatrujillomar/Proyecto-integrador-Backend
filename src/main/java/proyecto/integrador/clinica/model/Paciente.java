@@ -1,5 +1,7 @@
 package proyecto.integrador.clinica.model;
 
+import proyecto.integrador.clinica.utils.GsonProviter;
+
 import java.time.LocalDate;
 
 
@@ -81,13 +83,6 @@ public class Paciente {
 
     @Override
     public String toString() {
-        return "Paciente{" +
-                "id=" + id +
-                ", apellido='" + apellido + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", dni='" + dni + '\'' +
-                ", fechaIngreso=" + fechaIngreso +
-                ", domicilio=" + domicilio +
-                '}';
+        return GsonProviter.getGson().toJson(this);
     }
 }

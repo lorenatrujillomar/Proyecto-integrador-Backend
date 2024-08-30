@@ -105,11 +105,6 @@ public class DaoH2Domicilio implements IDao<Domicilio> {
     }
 
     @Override
-    public List listarTodos() {
-        return List.of();
-    }
-
-    @Override
     public void modificar(Domicilio domicilio) {
         Connection connection = null;
         try{

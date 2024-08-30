@@ -1,5 +1,7 @@
 package proyecto.integrador.clinica.model;
 
+import proyecto.integrador.clinica.utils.GsonProviter;
+
 public class Odontologo {
     private Integer id;
     private Integer numeromatricula;
@@ -56,11 +58,6 @@ public class Odontologo {
 
     @Override
     public String toString() {
-        return "Odontologo{" +
-                "id=" + id +
-                ", numeromatricula=" + numeromatricula +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                '}';
+        return GsonProviter.getGson().toJson(this);
     }
 }

@@ -25,7 +25,7 @@ public class OdontologoService {
     }
 
      public List<Odontologo> buscarTodos() {
-         return odontologoIDao.listarTodos();
+         return odontologoIDao.listaTodos();
      }
 
     public void modificarOdontologo(Odontologo odontologo){
