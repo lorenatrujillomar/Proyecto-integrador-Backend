@@ -80,4 +80,14 @@ public class PacienteService implements IPacienteService {
         }
         return requestDto;
     }
+
+    @Override
+    public List<Paciente> buscarPorApellido(String apellido){
+        return pacienteRepository.findByApellido(apellido);
+    }
+
+    @Override
+    public List<Paciente> buscarPorUnaParteApellido(String parte){
+        return pacienteRepository.buscarPorParteApellido(parte);
+    }
 }

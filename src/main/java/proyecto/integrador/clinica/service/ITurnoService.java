@@ -3,8 +3,10 @@ package proyecto.integrador.clinica.service;
 import proyecto.integrador.clinica.dto.request.TurnoModificarDto;
 import proyecto.integrador.clinica.dto.request.TurnoRequestDto;
 import proyecto.integrador.clinica.dto.response.TurnoResponseDto;
+import proyecto.integrador.clinica.entity.Paciente;
 import proyecto.integrador.clinica.entity.Turno;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +16,6 @@ public interface ITurnoService {
     List<TurnoResponseDto> buscarTodos();
     void modificarTurnos(TurnoModificarDto turnoModificarDto);
     void eliminarTurno(Integer id);
+    Optional<TurnoResponseDto> buscarTurnosPorPaciente(String pacienteApellido);
+    Optional<TurnoResponseDto> buscarporDniPaciente(String pacienteDni);
 }

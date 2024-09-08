@@ -125,4 +125,24 @@ public class TurnoService implements ITurnoService {
         turnoResponseDto.setOdontologoResponseDto(modelMapper.map(turno.getOdontologo(), OdontologoResponseDto.class));
         return turnoResponseDto;
     }
+
+    @Override
+    public Optional<TurnoResponseDto> buscarTurnosPorPaciente(String pacienteApellido) {
+        Optional<Turno> turno = turnoRepository.buscarPorApellidoPaciente(pacienteApellido);
+        TurnoResponseDto turnoParaResponder = null;
+        if(turno.isPresent()) {
+            turnoParaResponder = convertirTurnoEnResponse(turno.get());
+        }
+        return Optional.ofNullable(turnoParaResponder);
+    }
+
+    @Override
+    public Optional<TurnoResponseDto> buscarporDniPaciente(String pacienteDni){
+        List<Turno> turnos = turnoRepository.buscarPorDniPaciente(pacienteDni);
+        TurnoResponseDto turnoParaResponder = null;
+        if(!turnos.isEmpty()) {
+            turnoParaResponder = convertirTurnoEnResponse(turnos.get(0)); // O maneja la lista según tus necesidades
+        }
+        return Optional.ofNullable(turnoParaResponder);
+    }
 }

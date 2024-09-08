@@ -14,4 +14,6 @@ public interface IPacienteService {
     List<PacienteResponseDto> buscarTodos();
     void modificarPaciente(PacienteModificarDto pacienteModificarDto);
     void eliminarPaciente(Integer id);
+    List<Paciente> buscarPorApellido(String apellido);
+    List<Paciente> buscarPorUnaParteApellido(String parte);
 }

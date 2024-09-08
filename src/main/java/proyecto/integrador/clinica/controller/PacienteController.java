@@ -55,4 +55,14 @@ public class PacienteController {
     public ResponseEntity<List<PacienteResponseDto>> buscarTodos(){
         return ResponseEntity.ok(pacienteService.buscarTodos());
     }
+
+    @GetMapping("/buscarApellido/{apellido}")
+    public ResponseEntity<List<Paciente>> buscarApellido(@PathVariable String apellido){
+        return ResponseEntity.ok(pacienteService.buscarPorApellido(apellido));
+    }
+
+    @GetMapping("/buscarApellidoParte/{parte}")
+    public ResponseEntity<List<Paciente>> buscarPorUnaParteApellido(@PathVariable String parte){
+        return ResponseEntity.ok(pacienteService.buscarPorUnaParteApellido(parte));
+    }
 }

@@ -7,6 +7,7 @@ import proyecto.integrador.clinica.dto.request.OdontologoModificarDto;
 import proyecto.integrador.clinica.dto.request.OdontologoRequestDto;
 import proyecto.integrador.clinica.dto.response.OdontologoResponseDto;
 import proyecto.integrador.clinica.entity.Odontologo;
+import proyecto.integrador.clinica.entity.Paciente;
 import proyecto.integrador.clinica.service.impl.OdontologoService;
 
 
@@ -70,5 +71,10 @@ public class OdontologoController {
     public ResponseEntity<List<OdontologoResponseDto>> buscarTodos(){
         List<OdontologoResponseDto> odontologosResponseDto = odontologoService.buscarTodos();
         return ResponseEntity.ok(odontologosResponseDto);
+    }
+
+    @GetMapping("/buscarMatriculaParte/{matricula}")
+    public ResponseEntity<List<Odontologo>> buscarPorUnaParteNumeroMatricula(@PathVariable String matricula){
+        return ResponseEntity.ok(odontologoService.buscarPorUnaParteNumeroMatricula(matricula));
     }
 }

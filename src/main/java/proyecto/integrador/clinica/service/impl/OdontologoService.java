@@ -8,6 +8,7 @@ import proyecto.integrador.clinica.dto.request.OdontologoRequestDto;
 import proyecto.integrador.clinica.dto.response.OdontologoResponseDto;
 import proyecto.integrador.clinica.dto.response.PacienteResponseDto;
 import proyecto.integrador.clinica.entity.Odontologo;
+import proyecto.integrador.clinica.entity.Paciente;
 import proyecto.integrador.clinica.repository.IOdontologoRepository;
 import proyecto.integrador.clinica.service.IOdontologoService;
 
@@ -70,5 +71,10 @@ public class OdontologoService implements IOdontologoService {
     private OdontologoResponseDto convertirOdontologoEnResponse(Odontologo odontologo){
         OdontologoResponseDto requestDto = modelMapper.map(odontologo, OdontologoResponseDto.class);
         return requestDto;
+    }
+
+    @Override
+    public List<Odontologo> buscarPorUnaParteNumeroMatricula(String matricula){
+        return odontologoRepository.buscarPorUnaParteNumeroMatricula(matricula);
     }
 }
