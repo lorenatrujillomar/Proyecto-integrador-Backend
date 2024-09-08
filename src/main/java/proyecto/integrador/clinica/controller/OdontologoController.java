@@ -3,6 +3,9 @@ package proyecto.integrador.clinica.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import proyecto.integrador.clinica.dto.request.OdontologoModificarDto;
+import proyecto.integrador.clinica.dto.request.OdontologoRequestDto;
+import proyecto.integrador.clinica.dto.response.OdontologoResponseDto;
 import proyecto.integrador.clinica.entity.Odontologo;
 import proyecto.integrador.clinica.service.impl.OdontologoService;
 
@@ -22,20 +25,19 @@ public class OdontologoController {
 
     //POST
     @PostMapping("/guardar")
-    public Odontologo guardarOdontologo(@RequestBody Odontologo odontologo){
-        return odontologoService.guardarOdontologo(odontologo);
+    public ResponseEntity<OdontologoResponseDto> guardarOdontologo(@RequestBody OdontologoRequestDto odontologoRequestDto){
+        return ResponseEntity.ok(odontologoService.guardarOdontologo(odontologoRequestDto));
     }
 
     //PUT
     @PutMapping("/modificar")
-    public ResponseEntity<String> modificarOdontologo(@RequestBody Odontologo odontologo){
-        Optional<Odontologo> odontologoEncontrado =   odontologoService.buscarPorId(odontologo.getId());
-        if(odontologoEncontrado.isPresent()) {
-            odontologoService.modificarOdontologo(odontologo);
-            String jsonResponse = "{\"mensaje\": \"El odontologo fue modificado\"}";
-            return ResponseEntity.ok(jsonResponse);
-        }else{
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    public ResponseEntity<String> modificarOdontologo(@RequestBody OdontologoModificarDto odontologoModificarDto){
+        Optional<Odontologo> odontologoEncontrado = odontologoService.buscarPorId(odontologoModificarDto.getId());
+        if (odontologoEncontrado.isPresent()) {
+            odontologoService.modificarOdontologo(odontologoModificarDto);
+            return ResponseEntity.ok("{\"mensaje\": \"El odontólogo fue modificado\"}");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 
@@ -65,7 +67,8 @@ public class OdontologoController {
 
     //GET
     @GetMapping("/buscartodos")
-    public List<Odontologo> buscarTodos(){
-        return odontologoService.buscarTodos();
+    public ResponseEntity<List<OdontologoResponseDto>> buscarTodos(){
+        List<OdontologoResponseDto> odontologosResponseDto = odontologoService.buscarTodos();
+        return ResponseEntity.ok(odontologosResponseDto);
     }
 }

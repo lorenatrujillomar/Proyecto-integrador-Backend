@@ -3,9 +3,12 @@ package proyecto.integrador.clinica.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import proyecto.integrador.clinica.dto.request.PacienteModificarDto;
+import proyecto.integrador.clinica.dto.request.PacienteRequestDto;
+import proyecto.integrador.clinica.dto.request.TurnoModificarDto;
+import proyecto.integrador.clinica.dto.response.PacienteResponseDto;
 import proyecto.integrador.clinica.entity.Paciente;
 import proyecto.integrador.clinica.service.IPacienteService;
-import proyecto.integrador.clinica.service.impl.PacienteService;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,21 +25,16 @@ public class PacienteController {
 
     //POST
     @PostMapping("/guardar")
-    public ResponseEntity<Paciente> guardarPaciente(@RequestBody Paciente paciente){
-        return  ResponseEntity.ok(pacienteService.guardarPaciente(paciente));
+    public ResponseEntity<PacienteResponseDto> guardarPaciente(@RequestBody PacienteRequestDto pacienteRequestDto){
+        PacienteResponseDto pacienteResponseDto = pacienteService.guardarPaciente(pacienteRequestDto);
+        return  ResponseEntity.ok(pacienteResponseDto);
     }
 
     //PUT
     @PutMapping("/modificar")
-    public ResponseEntity<String> modificarPaciente(@RequestBody Paciente paciente){
-       Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(paciente.getId());
-        if(pacienteEncontrado.isPresent()){
-            pacienteService.modificarPaciente(paciente);
-            String jsonResponse = "{\"mensaje\": \"El paciente fue modificado\"}";
-            return ResponseEntity.ok(jsonResponse);
-        } else {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public ResponseEntity<String> modificarTurno(@RequestBody PacienteModificarDto pacienteModificarDto){
+        pacienteService.modificarPaciente(pacienteModificarDto);
+        return ResponseEntity.ok("{\"mensaje\": \"El paciente fue modificado\"}");
     }
 
     //DELETE
@@ -53,19 +51,8 @@ public class PacienteController {
     }
 
     //GET
-    @GetMapping("/buscar/{id}")
-    public ResponseEntity<Paciente> buscarPorId(@PathVariable Integer id){
-        Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(id);
-        if(pacienteEncontrado.isPresent()) {
-           return ResponseEntity.ok(pacienteEncontrado.get());
-        } else {
-           return ResponseEntity.notFound().build();
-        }
-    }
-
-    //GET
     @GetMapping("/buscartodos")
-    public ResponseEntity<List<Paciente>> buscarTodos(){
+    public ResponseEntity<List<PacienteResponseDto>> buscarTodos(){
         return ResponseEntity.ok(pacienteService.buscarTodos());
     }
 }

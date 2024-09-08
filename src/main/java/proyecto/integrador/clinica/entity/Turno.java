@@ -23,11 +23,11 @@ public class Turno {
     private Integer id;
 
     @ManyToOne
-    //@JsonBackReference(value = "paciente-turnos")
+    @JsonBackReference(value = "paciente-turnos")
     private Paciente paciente;
 
     @ManyToOne
-    //@JsonBackReference(value = "odontologo-turnos")
+    @JsonBackReference(value = "odontologo-turnos")
     private Odontologo odontologo;
     private LocalDate fecha;
 

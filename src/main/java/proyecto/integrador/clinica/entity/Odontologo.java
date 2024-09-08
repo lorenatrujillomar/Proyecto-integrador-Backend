@@ -22,13 +22,13 @@ public class Odontologo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer id;
-    private Integer numeromatricula;
+    private String numeromatricula;
     private String nombre;
     private String apellido;
 
     @OneToMany(mappedBy = "odontologo", cascade = CascadeType.REMOVE)
-   // @JsonManagedReference(value = "odontologo-turnos")
-    @JsonIgnore
+    @JsonManagedReference(value = "odontologo-turnos")
+   // @JsonIgnore
 
     private Set<Turno> turnoSet;
 
