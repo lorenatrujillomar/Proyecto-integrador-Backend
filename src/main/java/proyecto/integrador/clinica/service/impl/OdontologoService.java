@@ -9,6 +9,7 @@ import proyecto.integrador.clinica.dto.response.OdontologoResponseDto;
 import proyecto.integrador.clinica.dto.response.PacienteResponseDto;
 import proyecto.integrador.clinica.entity.Odontologo;
 import proyecto.integrador.clinica.entity.Paciente;
+import proyecto.integrador.clinica.exception.ResourceNotFoundException;
 import proyecto.integrador.clinica.repository.IOdontologoRepository;
 import proyecto.integrador.clinica.service.IOdontologoService;
 
@@ -37,7 +38,12 @@ public class OdontologoService implements IOdontologoService {
 
     @Override
     public Optional<Odontologo> buscarPorId(Integer id) {
-        return odontologoRepository.findById(id);
+        Optional<Odontologo> odontologoEncontrado = odontologoRepository.findById(id);
+        if(odontologoEncontrado.isPresent()){
+            return odontologoEncontrado;
+        } else {
+            throw new ResourceNotFoundException("Odontologo no encontrado");
+        }
     }
 
     @Override
@@ -64,7 +70,13 @@ public class OdontologoService implements IOdontologoService {
 
     @Override
     public void eliminarOdontologo(Integer id) {
-        odontologoRepository.deleteById(id);
+        Optional<Odontologo> odontologoEncontrado = buscarPorId(id);
+        if (odontologoEncontrado.isPresent()){
+            odontologoRepository.deleteById(id);
+        }else{
+            throw new ResourceNotFoundException("Odontologo no encontrado");
+        }
+
 
     }
 

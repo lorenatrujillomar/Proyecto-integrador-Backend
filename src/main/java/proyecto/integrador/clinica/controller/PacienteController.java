@@ -6,10 +6,17 @@ import org.springframework.web.bind.annotation.*;
 import proyecto.integrador.clinica.dto.request.PacienteModificarDto;
 import proyecto.integrador.clinica.dto.request.PacienteRequestDto;
 import proyecto.integrador.clinica.dto.request.TurnoModificarDto;
+import proyecto.integrador.clinica.dto.request.TurnoRequestDto;
 import proyecto.integrador.clinica.dto.response.PacienteResponseDto;
+import proyecto.integrador.clinica.dto.response.TurnoResponseDto;
+import proyecto.integrador.clinica.entity.Odontologo;
 import proyecto.integrador.clinica.entity.Paciente;
+import proyecto.integrador.clinica.entity.Turno;
+import proyecto.integrador.clinica.exception.BadRequestException;
+import proyecto.integrador.clinica.exception.ResourceNotFoundException;
 import proyecto.integrador.clinica.service.IPacienteService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +37,7 @@ public class PacienteController {
         return  ResponseEntity.ok(pacienteResponseDto);
     }
 
+
     //PUT
     @PutMapping("/modificar")
     public ResponseEntity<String> modificarTurno(@RequestBody PacienteModificarDto pacienteModificarDto){
@@ -40,12 +48,19 @@ public class PacienteController {
     //DELETE
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminarPaciente(@PathVariable Integer id){
-        Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(id);
-        if(pacienteEncontrado.isPresent()) {
+
             pacienteService.eliminarPaciente(id);
-            String jsonResponse = "{\"mensaje\": \"El paciente fue eliminado\"}";
-            return ResponseEntity.ok(jsonResponse);
-        }else{
+            return ResponseEntity.ok("{\"mensaje\": \"El paciente fue eliminado\"}");
+    }
+
+
+    //GET
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<Paciente> buscarPorId(@PathVariable Integer id) {
+        Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(id);
+        if (pacienteEncontrado.isPresent()) {
+            return ResponseEntity.ok(pacienteEncontrado.get());
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

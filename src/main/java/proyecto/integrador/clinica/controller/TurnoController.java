@@ -35,7 +35,7 @@ public class TurnoController {
     @PutMapping("/modificar")
     public ResponseEntity<String> modificarTurno(@RequestBody TurnoModificarDto turnoModificarDto){
         turnoService.modificarTurnos(turnoModificarDto);
-        return ResponseEntity.ok("{\"mensaje\": \"El paciente fue modificado\"}");
+        return ResponseEntity.ok("{\"mensaje\": \"El turno fue modificado\"}");
     }
 
     @GetMapping("/buscarTurnoApellido/{apellido}")
@@ -48,5 +48,11 @@ public class TurnoController {
     public ResponseEntity<TurnoResponseDto> buscarTurnoPorDni(@PathVariable String dni){
         Optional<TurnoResponseDto> turno = turnoService.buscarporDniPaciente(dni);
         return ResponseEntity.ok(turno.get());
+    }
+
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminarTurno(@PathVariable Integer id){
+        turnoService.eliminarTurno(id);
+        return ResponseEntity.ok("{\"mensaje\": \"El turno fue eliminado\"}");
     }
 }

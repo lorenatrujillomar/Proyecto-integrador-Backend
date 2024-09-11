@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import proyecto.integrador.clinica.utils.GsonProviter;
 
 @Getter
 @Setter
@@ -16,4 +17,9 @@ public class TurnoResponseDto {
     // datos del odontologo
     private OdontologoResponseDto odontologoResponseDto;
     private String fecha;
+
+    @Override
+    public String toString(){
+        return GsonProviter.getGson().toJson(this);
+    }
 }
