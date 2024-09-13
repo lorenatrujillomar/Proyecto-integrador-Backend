@@ -151,11 +151,13 @@ public class TurnoService implements ITurnoService {
     @Override
     public Optional<TurnoResponseDto> buscarTurnosPorPaciente(String pacienteApellido) {
         Optional<Turno> turno = turnoRepository.buscarPorApellidoPaciente(pacienteApellido);
-        TurnoResponseDto turnoParaResponder = null;
         if(turno.isPresent()) {
-            turnoParaResponder = convertirTurnoEnResponse(turno.get());
+            TurnoResponseDto turnoParaResponder = convertirTurnoEnResponse(turno.get());
+            return Optional.of(turnoParaResponder);
+        } else {
+            logger.error("No se encontró turno para el paciente con apellido {}", pacienteApellido);
+            return Optional.empty();
         }
-        return Optional.ofNullable(turnoParaResponder);
     }
 
     @Override

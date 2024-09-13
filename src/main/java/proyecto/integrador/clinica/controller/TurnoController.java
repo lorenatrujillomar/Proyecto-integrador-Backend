@@ -48,14 +48,26 @@ public class TurnoController {
     @GetMapping("/buscarTurnoApellido/{apellido}")
     public ResponseEntity<TurnoResponseDto> buscarTurnoPorApellido(@PathVariable String apellido){
         Optional<TurnoResponseDto> turno = turnoService.buscarTurnosPorPaciente(apellido);
-        return ResponseEntity.ok(turno.get());
+        if (turno.isPresent()) {
+            return ResponseEntity.ok(turno.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // O manejar de otra manera si prefieres
+        }
     }
+
 
     @GetMapping("/buscarTurnoDni/{dni}")
     public ResponseEntity<TurnoResponseDto> buscarTurnoPorDni(@PathVariable String dni){
         Optional<TurnoResponseDto> turno = turnoService.buscarporDniPaciente(dni);
-        return ResponseEntity.ok(turno.get());
+        if (turno.isPresent()) {
+            return ResponseEntity.ok(turno.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new TurnoResponseDto());
+        }
     }
+
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminarTurno(@PathVariable Integer id){
