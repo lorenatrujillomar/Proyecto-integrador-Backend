@@ -46,10 +46,16 @@ public class PacienteController {
 
     //PUT
     @PutMapping("/modificar")
-    public ResponseEntity<String> modificarTurno(@Valid @RequestBody PacienteModificarDto pacienteModificarDto){
+    public ResponseEntity<String>  modificarPaciente(@RequestBody PacienteModificarDto pacienteModificarDto){
         logger.info("Modificando paciente con ID: {}", pacienteModificarDto.getId());
-        pacienteService.modificarPaciente(pacienteModificarDto);
-        return ResponseEntity.ok("{\"mensaje\": \"El paciente fue modificado\"}");
+        Optional<Paciente> pacienteEncontrado = pacienteService.buscarPorId(pacienteModificarDto.getId());
+        if(pacienteEncontrado.isPresent()){
+            pacienteService.modificarPaciente(pacienteModificarDto);
+            String jsonResponse = "{\"mensaje\": \"El paciente fue modificado\"}";
+            return ResponseEntity.ok(jsonResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     //DELETE

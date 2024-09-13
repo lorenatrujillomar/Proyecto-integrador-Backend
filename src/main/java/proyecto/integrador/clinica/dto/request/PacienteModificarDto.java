@@ -24,6 +24,6 @@ public class PacienteModificarDto {
     @Size(min = 8, max = 15, message = "El DNI debe tener entre 8 y 15 caracteres")
     private String dni;
     @NotNull(message = "La fecha de ingreso no puede ser nula")
-    private String fechaIngreso;
-    private Integer domicilioId;
+    private LocalDate fechaIngreso;
+    private DomicilioRequestDto domicilio;
 }

@@ -68,19 +68,35 @@ public class PacienteService implements IPacienteService {
 
     @Override
     public void modificarPaciente(PacienteModificarDto pacienteModificarDto) {
-        Optional<Paciente> paciente = pacienteRepository.findById(pacienteModificarDto.getId());
-        if (paciente.isPresent()) {
-            Paciente pacienteModificar = paciente.get();
-            pacienteModificar.setNombre(pacienteModificarDto.getNombre());
-            pacienteModificar.setApellido(pacienteModificarDto.getApellido());
-            pacienteModificar.setDni(pacienteModificarDto.getDni());
-            pacienteRepository.save(pacienteModificar);
+        Optional<Paciente> pacienteOptional = pacienteRepository.findById(pacienteModificarDto.getId());
+        if (pacienteOptional.isPresent()) {
+            Paciente paciente = pacienteOptional.get();
+            paciente.setNombre(pacienteModificarDto.getNombre());
+            paciente.setApellido(pacienteModificarDto.getApellido());
+            paciente.setDni(pacienteModificarDto.getDni());
+            paciente.setFechaIngreso(pacienteModificarDto.getFechaIngreso());
+
+            // Actualizar domicilio
+            if (pacienteModificarDto.getDomicilio() != null) {
+                Domicilio domicilio = paciente.getDomicilio();
+                if (domicilio == null) {
+                    domicilio = new Domicilio();
+                    paciente.setDomicilio(domicilio);
+                }
+                domicilio.setCalle(pacienteModificarDto.getDomicilio().getCalle());
+                domicilio.setNumero(pacienteModificarDto.getDomicilio().getNumero());
+                domicilio.setLocalidad(pacienteModificarDto.getDomicilio().getLocalidad());
+                domicilio.setProvincia(pacienteModificarDto.getDomicilio().getProvincia());
+            }
+
+            pacienteRepository.save(paciente);
             logger.info("Paciente con ID {} modificado exitosamente", pacienteModificarDto.getId());
         } else {
             logger.error("Paciente con ID {} no encontrado para modificar", pacienteModificarDto.getId());
             throw new ResourceNotFoundException("Paciente no encontrado");
         }
     }
+
 
     @Override
     public void eliminarPaciente(Integer id) {
