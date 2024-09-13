@@ -1,6 +1,8 @@
 package proyecto.integrador.clinica.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import proyecto.integrador.clinica.dto.request.OdontologoModificarDto;
@@ -28,9 +30,11 @@ public class OdontologoService implements IOdontologoService {
         this.odontologoRepository = odontologoRepository;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(OdontologoService.class);
 
     @Override
     public OdontologoResponseDto guardarOdontologo(OdontologoRequestDto odontologoRequestDto) {
+        logger.info("Guardando odontólogo: {}", odontologoRequestDto);
         Odontologo odontologo = modelMapper.map(odontologoRequestDto, Odontologo.class);
         Odontologo odontologoDesdeBD = odontologoRepository.save(odontologo);
         return convertirOdontologoEnResponse(odontologoDesdeBD);
@@ -65,11 +69,16 @@ public class OdontologoService implements IOdontologoService {
             odotologoModificar.setApellido(odontologoModificarDto.getApellido());
             odotologoModificar.setNombre(odontologoModificarDto.getNombre());
             odontologoRepository.save(odotologoModificar);
+            logger.info("Odontólogo con ID {} modificado exitosamente", odontologoModificarDto.getId());
+        } else {
+            logger.error("Odontólogo con ID {} no encontrado para modificar", odontologoModificarDto.getId());
+            throw new ResourceNotFoundException("Odontologo no encontrado");
         }
     }
 
     @Override
     public void eliminarOdontologo(Integer id) {
+        logger.info("Eliminando odontólogo con ID: {}", id);
         Optional<Odontologo> odontologoEncontrado = buscarPorId(id);
         if (odontologoEncontrado.isPresent()){
             odontologoRepository.deleteById(id);

@@ -1,5 +1,8 @@
 package proyecto.integrador.clinica.controller;
 
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +25,11 @@ public class TurnoController {
         this.turnoService = turnoService;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(TurnoController.class);
+
     @PostMapping("/guardar")
-    public ResponseEntity<TurnoResponseDto> guardarTurno(@RequestBody TurnoRequestDto turnoRequestDto){
+    public ResponseEntity<TurnoResponseDto> guardarTurno(@Valid @RequestBody TurnoRequestDto turnoRequestDto){
+        logger.info("Guardando turno: {}", turnoRequestDto);
         return ResponseEntity.ok(turnoService.guardarTurno(turnoRequestDto));
     }
 
@@ -33,7 +39,8 @@ public class TurnoController {
     }
 
     @PutMapping("/modificar")
-    public ResponseEntity<String> modificarTurno(@RequestBody TurnoModificarDto turnoModificarDto){
+    public ResponseEntity<String> modificarTurno(@Valid @RequestBody TurnoModificarDto turnoModificarDto){
+        logger.info("Modificando turno con ID: {}", turnoModificarDto.getId());
         turnoService.modificarTurnos(turnoModificarDto);
         return ResponseEntity.ok("{\"mensaje\": \"El turno fue modificado\"}");
     }
@@ -52,6 +59,7 @@ public class TurnoController {
 
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminarTurno(@PathVariable Integer id){
+        logger.info("Eliminando turno con ID: {}", id);
         turnoService.eliminarTurno(id);
         return ResponseEntity.ok("{\"mensaje\": \"El turno fue eliminado\"}");
     }

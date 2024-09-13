@@ -1,5 +1,8 @@
 package proyecto.integrador.clinica.controller;
 
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,15 +27,18 @@ public class OdontologoController {
         this.odontologoService= odontologoService;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(OdontologoController.class);
     //POST
     @PostMapping("/guardar")
-    public ResponseEntity<OdontologoResponseDto> guardarOdontologo(@RequestBody OdontologoRequestDto odontologoRequestDto){
+    public ResponseEntity<OdontologoResponseDto> guardarOdontologo(@Valid @RequestBody OdontologoRequestDto odontologoRequestDto){
+        logger.info("Guardando odontólogo: {}", odontologoRequestDto);
         return ResponseEntity.ok(odontologoService.guardarOdontologo(odontologoRequestDto));
     }
 
     //PUT
     @PutMapping("/modificar")
-    public ResponseEntity<String> modificarOdontologo(@RequestBody OdontologoModificarDto odontologoModificarDto){
+    public ResponseEntity<String> modificarOdontologo(@Valid @RequestBody OdontologoModificarDto odontologoModificarDto){
+        logger.info("Modificando odontólogo con ID: {}", odontologoModificarDto.getId());
         Optional<Odontologo> odontologoEncontrado = odontologoService.buscarPorId(odontologoModificarDto.getId());
         if (odontologoEncontrado.isPresent()) {
             odontologoService.modificarOdontologo(odontologoModificarDto);
@@ -45,8 +51,8 @@ public class OdontologoController {
     //DELETE
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminarOdontologo(@PathVariable Integer id){
-
-       odontologoService.eliminarOdontologo(id);
+        logger.info("Eliminando odontólogo con ID: {}", id);
+        odontologoService.eliminarOdontologo(id);
         return ResponseEntity.ok("{\"mensaje\": \"El odontologo fue eliminado\"}");
     }
 

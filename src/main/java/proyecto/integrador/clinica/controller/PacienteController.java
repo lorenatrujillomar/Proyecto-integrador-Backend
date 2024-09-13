@@ -1,5 +1,8 @@
 package proyecto.integrador.clinica.controller;
 
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +33,12 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(PacienteController.class);
+
     //POST
     @PostMapping("/guardar")
-    public ResponseEntity<PacienteResponseDto> guardarPaciente(@RequestBody PacienteRequestDto pacienteRequestDto){
+    public ResponseEntity<PacienteResponseDto> guardarPaciente(@Valid @RequestBody PacienteRequestDto pacienteRequestDto){
+        logger.info("Guardando paciente: {}", pacienteRequestDto);
         PacienteResponseDto pacienteResponseDto = pacienteService.guardarPaciente(pacienteRequestDto);
         return  ResponseEntity.ok(pacienteResponseDto);
     }
@@ -40,7 +46,8 @@ public class PacienteController {
 
     //PUT
     @PutMapping("/modificar")
-    public ResponseEntity<String> modificarTurno(@RequestBody PacienteModificarDto pacienteModificarDto){
+    public ResponseEntity<String> modificarTurno(@Valid @RequestBody PacienteModificarDto pacienteModificarDto){
+        logger.info("Modificando paciente con ID: {}", pacienteModificarDto.getId());
         pacienteService.modificarPaciente(pacienteModificarDto);
         return ResponseEntity.ok("{\"mensaje\": \"El paciente fue modificado\"}");
     }
@@ -48,9 +55,9 @@ public class PacienteController {
     //DELETE
     @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<String> eliminarPaciente(@PathVariable Integer id){
-
-            pacienteService.eliminarPaciente(id);
-            return ResponseEntity.ok("{\"mensaje\": \"El paciente fue eliminado\"}");
+        logger.info("Eliminando paciente con ID: {}", id);
+        pacienteService.eliminarPaciente(id);
+        return ResponseEntity.ok("{\"mensaje\": \"El paciente fue eliminado\"}");
     }
 
 

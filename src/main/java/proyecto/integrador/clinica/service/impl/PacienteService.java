@@ -1,6 +1,8 @@
 package proyecto.integrador.clinica.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import proyecto.integrador.clinica.config.ModelMapperConfig;
@@ -29,8 +31,11 @@ public class PacienteService implements IPacienteService {
         this.pacienteRepository = pacienteRepository;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(PacienteService.class);
+
     @Override
     public PacienteResponseDto guardarPaciente(PacienteRequestDto pacienteRequestDto) {
+        logger.info("Guardando paciente: {}", pacienteRequestDto);
         Paciente paciente = modelMapper.map(pacienteRequestDto, Paciente.class);
         if(pacienteRequestDto.getDomicilio() != null) {
             Domicilio domicilio = modelMapper.map(pacienteRequestDto.getDomicilio(), Domicilio.class);
@@ -70,11 +75,16 @@ public class PacienteService implements IPacienteService {
             pacienteModificar.setApellido(pacienteModificarDto.getApellido());
             pacienteModificar.setDni(pacienteModificarDto.getDni());
             pacienteRepository.save(pacienteModificar);
+            logger.info("Paciente con ID {} modificado exitosamente", pacienteModificarDto.getId());
+        } else {
+            logger.error("Paciente con ID {} no encontrado para modificar", pacienteModificarDto.getId());
+            throw new ResourceNotFoundException("Paciente no encontrado");
         }
     }
 
     @Override
     public void eliminarPaciente(Integer id) {
+        logger.info("Eliminando paciente con ID: {}", id);
         Optional<Paciente> pacienteEncontrado = buscarPorId(id);
         if (pacienteEncontrado.isPresent()){
             pacienteRepository.deleteById(id);

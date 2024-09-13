@@ -53,7 +53,7 @@ public class TurnoService implements ITurnoService {
                 //Armado del turno desde el turno request dto
                 turno.setPaciente(paciente.get());
                 turno.setOdontologo(odontologo.get());
-                turno.setFecha(LocalDate.parse(turnoRequestDto.getFecha()));
+                turno.setFecha(turnoRequestDto.getFecha());
                 //Obtengo el turno persistido con el id
                 turnoDesdeBD = turnoRepository.save(turno);
 
@@ -102,6 +102,10 @@ public class TurnoService implements ITurnoService {
                     LocalDate.parse(turnoModificarDto.getFecha())
                     );
             turnoRepository.save(turno);
+            logger.info("Turno con ID {} modificado exitosamente", turnoModificarDto.getId());
+        } else {
+            logger.error("Paciente u odontólogo no encontrados para el turno con ID {}", turnoModificarDto.getId());
+            throw new ResourceNotFoundException("Paciente u odontologo no encontrados");
         }
     }
 

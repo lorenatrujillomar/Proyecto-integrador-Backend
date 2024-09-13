@@ -1,6 +1,7 @@
 package proyecto.integrador.clinica.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,9 @@ public class Domicilio {
     private Integer id;
     private String calle;
     private int numero;
+    @NotBlank
     private String localidad;
+    @NotBlank
     private String provincia;
 
 
